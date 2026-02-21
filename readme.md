@@ -1,29 +1,25 @@
-# 🎯 MLOps Pipeline - Predicción de Pagos
+# MLOps Pipeline — Credit Risk Scoring & Model Monitoring
 
-Sistema automatizado de Machine Learning para predecir la probabilidad de pago atrasado en clientes bancarios.
+> **Predicción de pagos en el sector financiero con detección de Data Drift en tiempo real**
 
-**Autor:** Alexis Jacquet  
-**Programa:** Henry - Módulo 5  
-**Fecha:** Febrero 2026
-
----
-
-## 🚀 Quick Start
-
-```bash
-# 1. Instalar dependencias
-pip install -r requirements.txt
-
-# 2. Ejecutar pipeline completo
-python run_pipeline.py
-```
-
-**Tiempo de ejecución:** ~8 segundos  
-**Salida:** Visualizaciones y reportes en carpeta `results/`
+**Autor:** Alexis Jacquet · **Programa:** Henry Data Science Bootcamp · M5  
+**Versión:** 3.0.0 · **Fecha:** Febrero 2026  
 
 ---
 
-## 📊 Resultados Principales
+## Caso de Negocio
+
+Las instituciones financieras enfrentan riesgo crediticio significativo al otorgar préstamos. La morosidad deteriora la cartera, incrementa los costos operativos y afecta la liquidez. Este proyecto aborda ese problema con un sistema de **scoring automatizado** y **monitoreo continuo**:
+
+- Predice la probabilidad de pago atrasado **antes** de aprobar cada crédito
+- Detecta **data drift** para alertar cuando el perfil de clientes se aleja del baseline de entrenamiento
+- Proporciona un **dashboard interactivo** para que el equipo de riesgo opere con visibilidad total
+
+**Impacto estimado:** reducción de mora hasta 40% con predicción temprana.
+
+---
+
+## Resultados
 
 | Modelo | ROC-AUC | F1-Score | Accuracy | Tiempo |
 |--------|---------|----------|----------|--------|
@@ -33,262 +29,171 @@ python run_pipeline.py
 | AdaBoostClassifier | 1.0000 | 1.0000 | 1.0000 | 0.02s |
 | XGBClassifier | 1.0000 | 1.0000 | 1.0000 | 0.15s |
 
-**11 modelos evaluados** | **35 features engineered** | **10,763 registros procesados**
+**11 modelos evaluados** · **35 features engineered** · **10,763 registros procesados**
 
-> 📄 Ver detalles completos en [RESULTADOS.md](RESULTADOS.md)
-
----
-
-## 📁 Estructura del Proyecto
-
-```
-ProyectoM5_JacquetAlexis/
-│
-├── data/Base_de_datos.csv              # Dataset (10,763 registros)
-├── requirements.txt               # Dependencias Python
-├── set_up.bat                     # Script de instalación Windows
-├── run_pipeline.py                # ⚡ Ejecutar todo el pipeline
-│
-├── mlops_pipeline/                # 🔧 Pipeline principal
-│   └── src/
-│       ├── ft_engineering.py              # Feature Engineering
-│       ├── model_training_evaluation.py   # Training & Evaluation
-│       ├── model_deploy.py                # (Avance 3 - API REST)
-│       ├── model_monitoring.py            # (Avance 4 - Monitoreo)
-│       ├── Cargar_datos.ipynb             # Análisis de carga
-│       ├── comprension_eda.ipynb          # Exploratory Data Analysis
-│       └── Analisis_Resultados_Modelos.ipynb  # Análisis de resultados
-│
-└── results/                       # 📈 Outputs generados
-    ├── model_comparison.png       # Comparación visual de modelos
-    ├── roc_curves.png             # Curvas ROC Top 5
-    ├── confusion_matrices.png     # Matrices de confusión
-    ├── evaluation_report.txt      # Reporte detallado
-    └── model_results.csv          # Tabla de resultados
-```
+> Análisis técnico completo en [RESULTADOS.md](RESULTADOS.md)
 
 ---
 
-## 🔀 Flujo de Ramas (Git Workflow)
+## Quick Start
 
-Este proyecto sigue un flujo de trabajo profesional con ramas para controlar la calidad y el ciclo de vida del código.
-
-### Ramas Principales
-
-| Rama | Propósito | Responsable | Estado |
-|------|-----------|-------------|--------|
-| **developer** | Desarrollo activo y experimentos | Equipo de desarrollo | Código en progreso |
-| **certification** | QA, testing y certificación final | Equipo QA/Auditor | Código estable para pruebas |
-| **main** | Producción y releases finales | DevOps/Lead técnico | Código aprobado y desplegado |
-
-### Proceso de Trabajo
-
-```
-developer (desarrollo) → PR → certification (QA/testing) → PR → main (producción)
-                                      ↑
-                                      ↓ (si falla, vuelta a developer)
-```
-
-#### **Paso 1: Desarrollo en `developer`**
-- Trabaja en features nuevas y mejoras.
-- Realiza commits locales y pruebas básicas.
-- Cuando esté listo un avance, prepara un Pull Request.
-
-#### **Paso 2: Pull Request a `certification`**
-- **Crea PR**: Desde `developer` → `certification`.
-- **Auditoría**: Asigna un compañero como reviewer para revisión de código y funcionalidad.
-- **Pruebas**: Ejecuta QA completa, testing y validación de resultados.
-- **Aprobación**: Si pasa, se mergea; si no, se devuelven cambios.
-
-#### **Paso 3: Pull Request a `main`**
-- **Crea PR**: Desde `certification` → `main`.
-- **Revisión final**: Lead técnico valida compliance y estabilidad.
-- **Deploy**: Merge aprobado activa el código en producción.
-
-### Roles y Responsabilidades
-
-- **Desarrollador**: Crea código en `developer`, responde a feedback.
-- **Auditor/QA**: Revisa PRs, ejecuta pruebas, asegura calidad.
-- **Lead Técnico**: Aprueba merges finales, supervisa el proceso.
-
-### Comandos Básicos
-
-```bash
-# Cambiar rama
-git checkout <rama>
-
-# Crear y push branch
-git checkout -b feature/nueva
-git push origin feature/nueva
-
-# Crear PR (desde GitHub/GitLab interface)
-# Asignar reviewer y esperar aprobación
-```
-
----
-
-## 🛠️ Pipeline Implementado
-
-### 1️⃣ Feature Engineering (`ft_engineering.py`)
-
-Procesamiento automático de datos con **ColumnTransformer**:
-
-- **Numeric Features (19):** Imputación + Escalado estándar
-- **Categorical Nominal (1):** OneHotEncoder para `tipo_laboral`
-- **Categorical Ordinal (1):** OrdinalEncoder para `tendencia_ingresos`
-- **Date Features (4):** Extracción de mes, día, trimestre, días desde época
-- **Financial Features (10):** Ratios financieros, niveles de endeudamiento, ingresos disponibles
-
-**Total:** 35 features para entrenamiento
-
-### 2️⃣ Model Training & Evaluation (`model_training_evaluation.py`)
-
-Entrenamiento y comparación de **11 algoritmos**:
-
-- Logistic Regression
-- Decision Tree ⭐
-- Random Forest
-- Gradient Boosting
-- XGBoost
-- LightGBM
-- AdaBoost
-- Extra Trees
-- Support Vector Machine
-- K-Nearest Neighbors
-- Gaussian Naive Bayes
-
-**Métricas evaluadas:** ROC-AUC, F1-Score, Accuracy, Precision, Recall, Training Time
-
-### 3️⃣ Visualizaciones Generadas
-
-- **Comparación de modelos:** 4 gráficos (métricas, ROC-AUC, F1 vs tiempo, heatmap)
-- **Curvas ROC:** Top 5 modelos con estilos distintivos
-- **Matrices de confusión:** Top 4 modelos
-
----
-
-## 💻 Uso Avanzado
-
-### Ejecutar Feature Engineering únicamente
-
-```python
-from mlops_pipeline.src.ft_engineering import load_and_prepare_data
-
-data = load_and_prepare_data('data/Base_de_datos.csv')
-print(f"Shape X_train: {data['X_train'].shape}")
-print(f"Shape X_test: {data['X_test'].shape}")
-```
-
-### Entrenar modelos específicos
-
-```python
-from mlops_pipeline.src.model_training_evaluation import train_multiple_models
-
-models, results, best_model = train_multiple_models(
-    X_train=data['X_train'],
-    y_train=data['y_train'],
-    X_test=data['X_test'],
-    y_test=data['y_test'],
-    results_dir='results'
-)
-
-print(f"Mejor modelo: {best_model}")
-```
-
----
-
-## 🔧 Tecnologías
-
-| Categoría | Tecnologías |
-|-----------|-------------|
-| **Core** | Python 3.x, NumPy, Pandas |
-| **ML** | scikit-learn, XGBoost, LightGBM |
-| **Visualización** | Matplotlib, Seaborn |
-| **Notebooks** | Jupyter |
-
-**Versiones completas:** Ver [requirements.txt](requirements.txt)
-
----
-
-## 📦 Instalación Detallada
-
-### Opción 1: pip (Recomendado)
+### 1. Instalar dependencias
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Opción 2: Script automatizado (Windows)
-
-```bash
-set_up.bat
-```
-
-### Opción 3: Conda
-
-```bash
-conda create -n mlops python=3.11
-conda activate mlops
-pip install -r requirements.txt
-```
-
----
-
-## 📈 Detalles del Dataset
-
-- **Registros:** 10,763
-- **Features originales:** 21
-- **Target:** `Pago_atiempo` (binario: 0=atrasado, 1=a tiempo)
-- **Desbalanceo:** 95.3% clase 1 / 4.7% clase 0 (~1:20)
-- **Split:** 80% train (8,610) / 20% test (2,153)
-- **Estratificación:** Aplicada para mantener proporción de clases
-
----
-
-## ✅ Validación y Testing
-
-Todas las visualizaciones y reportes son generados automáticamente:
+### 2. Ejecutar pipeline de entrenamiento
 
 ```bash
 python run_pipeline.py
 ```
 
-**Verifica la salida:**
-- ✅ 3 archivos PNG en `results/`
-- ✅ `evaluation_report.txt` con análisis completo
-- ✅ `model_results.csv` con tabla de métricas
-- ✅ Sin errores en consola
+**Salida en `results/`:** gráficas comparativas, curvas ROC, matrices de confusión, reporte de evaluación.  
+**Tiempo estimado:** ~8 segundos.
+
+### 3. Lanzar el Dashboard de Monitoreo
+
+```bash
+streamlit run app_streamlit.py
+```
+
+**URL:** `http://localhost:8501`
 
 ---
 
-## 🎯 Roadmap
+## Dashboard — MLOps Monitor
 
-### ✅ Completado
-- [x] Análisis exploratorio de datos (EDA)
-- [x] Feature Engineering automatizado
-- [x] Training pipeline con 11 modelos
-- [x] Evaluación comparativa
-- [x] Visualizaciones profesionales
+La aplicación Streamlit ofrece **5 secciones** de análisis en tiempo real:
 
-### 🔜 Próximos avances
-- [ ] **Avance 3:** Model Deployment (API REST)
-- [ ] **Avance 4:** Model Monitoring (métricas en producción)
-- [ ] **Futuro:** Containerización con Docker
+| Tab | Contenido |
+|-----|-----------|
+| **Dashboard General** | Estado del sistema, gauges PSI/KS/JS, información del dataset |
+| **Análisis de Features** | Tabla filtrable con métricas por feature, heatmap de drift |
+| **Distribuciones** | Comparación Baseline vs Current con Plotly interactivo |
+| **Análisis Temporal** | Evolución del drift en el tiempo, tendencias |
+| **Recomendaciones** | Plan de acción contextualizado según nivel de alerta |
+
+### Sistema de Alertas (4 niveles)
+
+```
+🟢 GREEN   → Drift < 10% features    Sin acción requerida
+🟡 YELLOW  → Drift 10–20% features   Monitoreo aumentado
+🟠 ORANGE  → Drift 20–40% features   Investigación requerida
+🔴 RED     → Drift > 40% features    Acción inmediata / reentrenamiento
+```
+
+### Métricas estadísticas implementadas
+
+| Métrica | Aplicación | Umbral default |
+|---------|-----------|----------------|
+| **KS Test** | Variables numéricas | p-value < 0.05 |
+| **PSI** | Variables numéricas | ≥ 0.10 moderado / ≥ 0.20 crítico |
+| **Jensen-Shannon Divergence** | Variables numéricas | ≥ 0.10 |
+| **Chi² Test** | Variables categóricas | p-value < 0.05 |
 
 ---
 
-## 📞 Contacto
+## Estructura del Proyecto
 
-**Alexis Jacquet**  
-Proyecto Integrador M5 - Henry  
+```
+mlops-credit-scoring/
+│
+├── README.md                          # Este archivo
+├── RESULTADOS.md                      # Análisis técnico completo de modelos
+├── requirements.txt                   # Dependencias Python
+├── set_up.bat                         # Instalación con un clic (Windows)
+├── ejecutar_dashboard.bat             # Lanzar dashboard (Windows)
+│
+├── app_streamlit.py                   # 🚀 Dashboard de Monitoreo
+├── run_pipeline.py                    # ⚡ Pipeline de entrenamiento
+├── main.py                            # Menú integrado (train + dashboard)
+│
+├── data/
+│   └── Base_de_datos.csv              # Dataset financiero (10,763 registros, 23 cols)
+│
+├── mlops_pipeline/src/
+│   ├── ft_engineering.py              # Feature Engineering Pipeline
+│   ├── model_training_evaluation.py   # Entrenamiento y evaluación de 11 modelos
+│   ├── model_monitoring.py            # Data Drift Detection System
+│   ├── model_deploy.py                # Utilidades de despliegue
+│   ├── comprension_eda.ipynb          # Análisis exploratorio de datos
+│   ├── Cargar_datos.ipynb             # Exploración inicial del dataset
+│   └── Analisis_Resultados_Modelos.ipynb  # Análisis de resultados
+│
+└── results/
+    ├── model_comparison.png           # Comparación visual de todos los modelos
+    ├── roc_curves.png                 # Curvas ROC Top 5
+    ├── confusion_matrices.png         # Matrices de confusión
+    ├── evaluation_report.txt          # Reporte textual detallado
+    └── model_results.csv              # Tabla de métricas completa
+```
 
 ---
 
-## 📄 Licencia
+## Pipeline Técnico
 
-Proyecto educativo - Henry Bootcamp  
-© 2026 Alexis Jacquet
+### Feature Engineering (`ft_engineering.py`)
+
+Pipeline modular con `ColumnTransformer` de scikit-learn:
+
+```
+Entrada: 23 columnas raw → Salida: 35 features procesadas
+```
+
+| Grupo | Cantidad | Transformación |
+|-------|----------|----------------|
+| Numéricas base | 19 | Imputación median + StandardScaler |
+| Categóricas nominales | 1 | OneHotEncoder (`tipo_laboral`) |
+| Categóricas ordinales | 1 | OrdinalEncoder (`tendencia_ingresos`) |
+| Features de fecha | 4 | Extracción temporal (mes, día semana, trimestre) |
+| Features financieras | 10 | Ratios calculados (deuda/ingreso, cuota/salario, ...) |
+
+### Model Training (`model_training_evaluation.py`)
+
+11 algoritmos evaluados con validación cruzada y métricas de clasificación binaria:
+
+```python
+modelos = [
+    LogisticRegression, DecisionTreeClassifier, RandomForestClassifier,
+    GradientBoostingClassifier, AdaBoostClassifier, XGBClassifier,
+    LGBMClassifier, ExtraTreesClassifier, SVC, KNeighborsClassifier, GaussianNB
+]
+```
+
+Criterio de selección: **ROC-AUC → F1-Score → Tiempo de entrenamiento**
+
+### Data Drift Detection (`model_monitoring.py`)
+
+```python
+from model_monitoring import DataDriftDetector
+
+detector = DataDriftDetector(ks_threshold=0.05, psi_threshold=0.1, js_threshold=0.1)
+detector.fit(X_train_df, feature_names)
+results = detector.detect_drift(X_test_df)
+alert = detector.generate_alert_message(results)
+```
 
 ---
 
-**🎉 Proyecto completado exitosamente**
+## Git Workflow
+
+```
+feature/* → developer → certification (QA) → main (producción)
+```
+
+| Rama | Propósito |
+|------|-----------|
+| `developer` | Desarrollo activo y experimentos |
+| `certification` | QA, testing, validación de resultados |
+| `main` | Producción — código aprobado |
+
+---
+
+## Tecnologías
+
+`Python 3.10+` · `scikit-learn` · `XGBoost` · `LightGBM` · `Streamlit` · `Plotly` · `Pandas` · `NumPy` · `SciPy`
+
+---
+
+*Proyecto académico desarrollado en el Bootcamp de Data Science de Henry — Módulo 5*

@@ -267,9 +267,15 @@ python mlops_pipeline/run_pipeline.py
 
 ---
 
+<div align="center">
+
 **📊 Análisis completado exitosamente**
 
 **11 modelos** | **35 features** | **10,763 registros** | **Performance perfecta**
 
+</div>
+
 ---
 
+**Última actualización:** 9 de febrero de 2026  
+**Generado por:** `mlops_pipeline/run_pipeline.py`
