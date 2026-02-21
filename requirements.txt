@@ -10,6 +10,12 @@ seaborn
 ipywidgets
 scikit-learn
 xgboost
+lightgbm
+matplotlib
 pydantic
 fastapi
 uvicorn[standard]
+streamlit
+plotly
+scipy
+kaleido

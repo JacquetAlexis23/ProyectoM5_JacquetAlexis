@@ -1,0 +1,41 @@
+# Dataset (no versionar datos crudos)
+data/
+
+# Entorno virtual
+.venv/
+venv/
+env/
+
+# Archivos compilados de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Distribución / empaquetado
+*.egg-info/
+dist/
+build/
+
+# Pytest / testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Variables de entorno
+.env
+.env.*
+
+# Outputs generados (se reproducen con run_pipeline.py)
+results/*.png
+
+# IDEs
+.vscode/settings.json
+.idea/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

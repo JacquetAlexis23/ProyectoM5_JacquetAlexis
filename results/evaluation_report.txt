@@ -1,0 +1,81 @@
+
+================================================================================
+📊 REPORTE DE EVALUACIÓN DE MODELOS
+================================================================================
+
+📋 TABLA RESUMEN DE MÉTRICAS:
+--------------------------------------------------------------------------------
+                     Model Accuracy Precision Recall F1-Score Specificity ROC-AUC  TN  FP   FN   TP Training_Time
+    DecisionTreeClassifier   1.0000    1.0000 1.0000   1.0000      1.0000  1.0000 102   0    0 2051         0.03s
+    RandomForestClassifier   1.0000    1.0000 1.0000   1.0000      1.0000  1.0000 102   0    0 2051         0.21s
+GradientBoostingClassifier   1.0000    1.0000 1.0000   1.0000      1.0000  1.0000 102   0    0 2051         1.35s
+        AdaBoostClassifier   1.0000    1.0000 1.0000   1.0000      1.0000  1.0000 102   0    0 2051         0.02s
+             XGBClassifier   1.0000    1.0000 1.0000   1.0000      1.0000  1.0000 102   0    0 2051         0.18s
+        LogisticRegression   0.9972    1.0000 0.9971   0.9985      1.0000  1.0000 102   0    6 2045         0.03s
+            LGBMClassifier   0.9986    0.9990 0.9995   0.9993      0.9804  1.0000 100   2    1 2050         1.39s
+      ExtraTreesClassifier   0.9967    0.9990 0.9976   0.9983      0.9804  0.9998 100   2    5 2046         0.16s
+                       SVC   0.9954    0.9995 0.9956   0.9976      0.9902  0.9998 101   1    9 2042         0.98s
+                GaussianNB   0.0785    0.9718 0.0336   0.0650      0.9804  0.9801 100   2 1982   69         0.00s
+      KNeighborsClassifier   0.9889    0.9884 1.0000   0.9942      0.7647  0.9655  78  24    0 2051         0.00s
+
+================================================================================
+🏆 MEJOR MODELO POR MÉTRICA:
+================================================================================
+
+🥇 Mejor ROC-AUC: DecisionTreeClassifier (1.0000)
+
+🥇 Mejor F1-Score: DecisionTreeClassifier (1.0000)
+
+🥇 Mejor Recall: DecisionTreeClassifier (1.0000)
+
+🥇 Mejor Precision: DecisionTreeClassifier (1.0000)
+
+================================================================================
+🎯 TOP 3 MODELOS (por ROC-AUC):
+================================================================================
+
+1. DecisionTreeClassifier
+   • ROC-AUC: 1.0000
+   • F1-Score: 1.0000
+   • Precisión: 1.0000
+   • Recall: 1.0000
+   • Tiempo: 0.03s
+
+2. RandomForestClassifier
+   • ROC-AUC: 1.0000
+   • F1-Score: 1.0000
+   • Precisión: 1.0000
+   • Recall: 1.0000
+   • Tiempo: 0.21s
+
+3. GradientBoostingClassifier
+   • ROC-AUC: 1.0000
+   • F1-Score: 1.0000
+   • Precisión: 1.0000
+   • Recall: 1.0000
+   • Tiempo: 1.35s
+
+================================================================================
+⚖️ ANÁLISIS DE TRADE-OFFS:
+================================================================================
+
+⚡ Modelo más rápido: KNeighborsClassifier (0.00s)
+   • ROC-AUC: 0.9655
+
+🎯 Mejor Recall (minimiza falsos negativos): DecisionTreeClassifier (1.0000)
+
+🎯 Mejor Precisión (minimiza falsos positivos): DecisionTreeClassifier (1.0000)
+
+================================================================================
+💡 RECOMENDACIÓN FINAL:
+================================================================================
+
+El modelo RECOMENDADO es: **DecisionTreeClassifier**
+
+Razones:
+  ✓ Mayor ROC-AUC: 1.0000
+  ✓ F1-Score balanceado: 1.0000
+  ✓ Buen balance entre Precision (1.0000) y Recall (1.0000)
+  ✓ Tiempo de entrenamiento aceptable: 0.03s
+
+================================================================================
