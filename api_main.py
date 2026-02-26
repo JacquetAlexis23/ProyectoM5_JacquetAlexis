@@ -215,7 +215,7 @@ async def startup_event():
         print("   Por favor, entrena un modelo primero usando run_pipeline.py")
         print(f"   Error: {e}")
         print("="*80 + "\n")
-    except Exception as e:  # pylint: disable=broad-exception-caught
+    except Exception as e:  # pylint: disable=broad-exception-caught  # NOSONAR - startup handler, all errors must be caught
         print(f"\n❌ ERROR al cargar modelo: {e}")
         print("="*80 + "\n")
 
@@ -324,7 +324,7 @@ async def predict_single(cliente: ClienteData, return_probabilities: bool = Fals
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Error en los datos de entrada: {str(e)}"
         ) from e
-    except Exception as e:  # pylint: disable=broad-except
+    except Exception as e:  # pylint: disable=broad-except  # NOSONAR - API endpoint, re-raised as HTTPException
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error durante la predicción: {str(e)}"
@@ -377,7 +377,7 @@ async def predict_batch(request: BatchPredictionRequest):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Error en los datos de entrada: {str(e)}"
         ) from e
-    except Exception as e:  # pylint: disable=broad-except
+    except Exception as e:  # pylint: disable=broad-except  # NOSONAR - API endpoint, re-raised as HTTPException
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error durante la predicción: {str(e)}"

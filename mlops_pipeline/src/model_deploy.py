@@ -176,11 +176,11 @@ class ModelDeployment:
 
         # Cargar componentes (joblib usa pickle internamente; los archivos provienen
         # exclusivamente del directorio interno de modelos, no de entrada del usuario)
-        self.model = joblib.load(version_dir / 'model.joblib')  # nosonar
-        self.preprocessor = joblib.load(version_dir / 'preprocessor.joblib')  # nosonar
-        self.date_engineer = joblib.load(version_dir / 'date_engineer.joblib')  # nosonar
-        self.financial_engineer = joblib.load(version_dir / 'financial_engineer.joblib')  # nosonar
-        self.feature_names = joblib.load(version_dir / 'feature_names.joblib')  # nosonar
+        self.model = joblib.load(version_dir / 'model.joblib')  # NOSONAR - trusted internal path
+        self.preprocessor = joblib.load(version_dir / 'preprocessor.joblib')  # NOSONAR - trusted internal path
+        self.date_engineer = joblib.load(version_dir / 'date_engineer.joblib')  # NOSONAR - trusted internal path
+        self.financial_engineer = joblib.load(version_dir / 'financial_engineer.joblib')  # NOSONAR - trusted internal path
+        self.feature_names = joblib.load(version_dir / 'feature_names.joblib')  # NOSONAR - trusted internal path
 
         # Cargar metadata
         with open(version_dir / 'metadata.json', 'r', encoding='utf-8') as f:
