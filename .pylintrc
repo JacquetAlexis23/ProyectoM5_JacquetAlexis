@@ -1,0 +1,242 @@
+[MASTER]
+# ============================================================================
+# Pylint Configuration
+# ============================================================================
+# Configuración para análisis estático de código Python
+# Autor: Alexis Jacquet - HENRY M5
+# ============================================================================
+
+# Python code to execute, usually for sys.path manipulation
+init-hook='import sys; sys.path.append("mlops_pipeline/src")'
+
+# Files or directories to be skipped
+ignore=CVS,.git,__pycache__,.venv,venv,env,build,dist,data,results,models
+ignore-patterns=test_.*?\.py,.*_test\.py
+
+# Use multiple processes to speed up Pylint
+jobs=4
+
+# Pickle collected data for later comparisons
+persistent=yes
+
+# Allow loading of arbitrary C extensions
+unsafe-load-any-extension=no
+
+# Extension module to check
+extension-pkg-whitelist=numpy,pandas,sklearn,xgboost,lightgbm,fastapi,pydantic
+
+[MESSAGES CONTROL]
+
+# Disable específicos para ML/Data Science
+disable=
+    C0103,  # Invalid name (common en ML: X, y, df, etc.)
+    C0114,  # Missing module docstring
+    C0115,  # Missing class docstring
+    C0116,  # Missing function docstring
+    R0913,  # Too many arguments (común en ML functions)
+    R0914,  # Too many local variables (común en pipelines)
+    R0915,  # Too many statements (común en análisis)
+    W0212,  # Protected access (necesario para algunos frameworks)
+    W0511,  # TODO/FIXME warnings
+    R0801,  # Similar lines (común en tests)
+    C0411,  # Wrong import order
+    C0413,  # Wrong import position (necesario para sys.path manipulation)
+    E0401,  # Import error (puede fallar en diferentes entornos)
+    E0213,  # No-self-argument (Pydantic v1 validators usan cls)
+    R0903,  # Too few public methods (normal en Pydantic models)
+    W0603,  # Global statement (patrón necesario para FastAPI globals)
+    W0707,  # Raise-missing-from (manejado explícitamente donde aplica)
+
+[REPORTS]
+
+# Set the output format
+output-format=text
+
+# Reports
+reports=yes
+
+# Evaluation score
+score=yes
+
+[REFACTORING]
+
+# Maximum number of nested blocks
+max-nested-blocks=5
+
+# Never returns functions
+never-returning-functions=sys.exit,argparse.parse_error
+
+[BASIC]
+
+# Good variable names
+good-names=i,j,k,ex,Run,_,X,y,df,ax,fig,id,pk,lr
+
+# Bad variable names
+bad-names=foo,bar,baz,toto,tutu,tata
+
+# Naming style
+argument-naming-style=snake_case
+attr-naming-style=snake_case
+class-attribute-naming-style=any
+class-const-naming-style=UPPER_CASE
+class-naming-style=PascalCase
+const-naming-style=UPPER_CASE
+function-naming-style=snake_case
+inlinevar-naming-style=any
+method-naming-style=snake_case
+module-naming-style=snake_case
+variable-naming-style=snake_case
+
+# Minimum line length for docstring
+docstring-min-length=10
+
+[FORMAT]
+
+# Maximum line length
+max-line-length=120
+
+# Maximum module lines
+max-module-lines=1000
+
+# Expected indent
+indent-after-paren=4
+indent-string='    '
+
+[LOGGING]
+
+# Format style
+logging-format-style=new
+
+[MISCELLANEOUS]
+
+# List of note tags to take in consideration
+notes=FIXME,XXX,TODO
+
+[SIMILARITIES]
+
+# Minimum lines number of a similarity
+min-similarity-lines=4
+
+# Ignore comments
+ignore-comments=yes
+
+# Ignore docstrings
+ignore-docstrings=yes
+
+# Ignore imports
+ignore-imports=yes
+
+# Ignore signatures
+ignore-signatures=yes
+
+[SPELLING]
+
+# Limits count of emitted suggestions
+max-spelling-suggestions=4
+
+# Spelling dictionary name
+spelling-dict=
+
+# List of comma separated words
+spelling-ignore-words=
+
+[STRING]
+
+# Check quote consistency
+check-quote-consistency=no
+
+[TYPECHECK]
+
+# Regex pattern for class members
+generated-members=
+
+# List of decorators that produce context managers
+contextmanager-decorators=contextlib.contextmanager
+
+# List of members which are set dynamically
+ignored-classes=optparse.Values,thread._local,_thread._local,sklearn
+
+# List of module names
+ignored-modules=numpy,pandas,sklearn,xgboost,lightgbm
+
+[VARIABLES]
+
+# Tells whether unused global variables should be treated as a violation
+allow-global-unused-variables=yes
+
+# Additional names
+additional-builtins=
+
+# Dummy variables regex
+dummy-variables-rgx=_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_
+
+# Ignored argument names
+ignored-argument-names=_.*|^ignored_|^unused_
+
+# Init-import
+init-import=no
+
+# Callbacks
+callbacks=cb_,_cb
+
+[CLASSES]
+
+# List of method names
+defining-attr-methods=__init__,__new__,setUp,__post_init__
+
+# List of boolean
+exclude-protected=_asdict,_fields,_replace,_source,_make
+
+# Valid classmethod first arg
+valid-classmethod-first-arg=cls
+
+# Valid metaclass classmethod first arg  
+valid-metaclass-classmethod-first-arg=cls
+
+[DESIGN]
+
+# Maximum attributes
+max-attributes=15
+
+# Maximum boolean expressions
+max-bool-expr=5
+
+# Maximum branch
+max-branches=15
+
+# Maximum locals
+max-locals=20
+
+# Maximum parents
+max-parents=7
+
+# Maximum public methods
+max-public-methods=25
+
+# Maximum returns
+max-returns=6
+
+# Maximum statements
+max-statements=60
+
+# Minimum public methods
+min-public-methods=1
+
+[IMPORTS]
+
+# Allow wildcard imports
+allow-wildcard-with-all=no
+
+# Deprecated modules
+deprecated-modules=optparse,tkinter.tix
+
+# Extension whitelist
+extension-pkg-whitelist=
+
+# Known third party
+known-third-party=enchant
+
+[EXCEPTIONS]
+
+# Exceptions that will emit a warning
+overgeneral-exceptions=builtins.BaseException,builtins.Exception

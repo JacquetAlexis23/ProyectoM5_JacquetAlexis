@@ -1,0 +1,51 @@
+# ============================================================================
+# .gitignore - MLOps Pipeline - Prediccion de Pagos
+# ============================================================================
+
+# Entornos virtuales (NO subir)
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache (NO subir)
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# IDEs
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Modelos entrenados (archivos binarios grandes - generar con: python run_pipeline.py)
+models/
+
+# Logs
+*.log
+
+# Variables de entorno sensibles
+.env
+.env.local
+
+# Artefactos generados por tests/CI
+coverage.xml
+htmlcov/
+.coverage
+.pytest_cache/
+pylint-report.txt
+flake8-report.txt
+sonarqube-report.json

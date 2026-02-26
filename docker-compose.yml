@@ -1,0 +1,117 @@
+# ============================================================================
+# docker-compose.yml - Configuración de Docker Compose
+# ============================================================================
+# Facilita el despliegue de la API con un solo comando
+#
+# Uso:
+#   docker-compose up -d       # Iniciar en background
+#   docker-compose logs -f     # Ver logs
+#   docker-compose down        # Detener
+#   docker-compose restart     # Reiniciar
+#
+# Autor: Alexis Jacquet
+# Proyecto: HENRY M5 - Avance 3
+# ============================================================================
+
+version: '3.8'
+
+services:
+  
+  # Servicio principal: API de predicción
+  ml-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    container_name: ml-payment-prediction-api
+    
+    image: ml-payment-prediction-api:latest
+    
+    ports:
+      - "8000:8000"  # Puerto host:container
+    
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=info
+    
+    volumes:
+      # Montar modelos para persistencia (opcional)
+      - ./models:/app/models:ro  # read-only
+      
+      # # Descomentar si necesitas desarrollo con hot-reload
+      # - ./api_main.py:/app/api_main.py
+      # - ./mlops_pipeline:/app/mlops_pipeline
+    
+    restart: unless-stopped
+    
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    
+    networks:
+      - ml-network
+    
+    labels:
+      - "com.project.name=ML Payment Prediction"
+      - "com.project.version=1.0.0"
+      - "com.project.author=Alexis Jacquet"
+
+  # Servicio secundario: Dashboard Streamlit
+  ml-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    container_name: ml-payment-dashboard
+    
+    # Sobreescribir CMD para ejecutar Streamlit en vez de la API
+    command: ["streamlit", "run", "app_streamlit.py",
+              "--server.port=8501",
+              "--server.address=0.0.0.0",
+              "--server.headless=true"]
+    
+    ports:
+      - "8501:8501"  # Puerto host:container
+    
+    environment:
+      - PYTHONUNBUFFERED=1
+      # URL interna de la API (por red Docker interna)
+      - API_URL=http://ml-api:8000
+    
+    volumes:
+      - ./data:/app/data:ro        # Dataset (read-only)
+      - ./models:/app/models:ro    # Modelos (read-only)
+    
+    depends_on:
+      - ml-api
+    
+    restart: unless-stopped
+    
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8501/_stcore/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    
+    networks:
+      - ml-network
+    
+    labels:
+      - "com.project.name=ML Payment Dashboard"
+      - "com.project.version=1.0.0"
+      - "com.project.author=Alexis Jacquet"
+
+# Red personalizada
+networks:
+  ml-network:
+    driver: bridge
+    name: ml-payment-network
+
+# Volúmenes (opcional - para persistencia)
+# volumes:
+#   models_data:
+#     name: ml_models_volume

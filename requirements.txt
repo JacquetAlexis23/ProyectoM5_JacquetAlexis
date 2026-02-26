@@ -9,7 +9,23 @@ ipykernel
 seaborn
 ipywidgets
 scikit-learn
+imbalanced-learn
 xgboost
+lightgbm
+matplotlib
 pydantic
 fastapi
 uvicorn[standard]
+streamlit
+plotly
+scipy
+kaleido
+joblib
+requests
+
+# Testing & Quality Tools
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pylint>=3.0.0
+flake8>=6.1.0
+coverage>=7.3.0

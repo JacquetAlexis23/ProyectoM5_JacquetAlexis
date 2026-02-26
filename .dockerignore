@@ -1,0 +1,90 @@
+# ============================================================================
+# .dockerignore - Archivos excluidos de la imagen Docker
+# ============================================================================
+# Optimiza el tamaño de la imagen Docker y mejora la seguridad
+# excluyendo archivos innecesarios
+# ============================================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+*.coverage
+htmlcov/
+
+# Entornos virtuales
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# IDEs y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+logs/
+
+# Datos grandes (no incluir datasets en la imagen)
+data/*.csv
+data/*.xlsx
+data/*.xls
+
+# Resultados de entrenamiento (gráficos, reportes, etc)
+results/*.png
+results/*.jpg
+results/*.pdf
+results/*.txt
+results/*.csv
+
+# Documentación que no se necesita en runtime
+README*.md
+GUIA_RAPIDA.md
+RESUMEN_EJECUTIVO.md
+RESULTADOS.md
+readme_backup.md
+*.md
+
+# Scripts de desarrollo
+run_pipeline.py
+set_up.bat
+ejecutar_dashboard.bat
+
+# Archivos de Windows
+Thumbs.db
+desktop.ini
+
+# Archivos de backup
+*.bak
+*.backup
+*~
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore

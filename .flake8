@@ -1,0 +1,94 @@
+[flake8]
+# ============================================================================
+# Flake8 Configuration
+# ============================================================================
+# Configuración para validación de estilo y convenciones PEP8
+# Autor: Alexis Jacquet - HENRY M5
+# ============================================================================
+
+# Maximum line length
+max-line-length = 120
+
+# Maximum complexity (McCabe)
+max-complexity = 15
+
+# Exclude paths
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    env,
+    .env,
+    build,
+    dist,
+    *.egg-info,
+    .ipynb_checkpoints,
+    data,
+    results,
+    models,
+    .pytest_cache,
+    htmlcov
+
+# Ignore specific errors
+# E203: Whitespace before ':' (conflict with black)
+# E266: Too many leading '#' for block comment
+# E501: Line too long (handled by max-line-length)
+# W503: Line break before binary operator (PEP 8 updated)
+# W504: Line break after binary operator
+# E402: Module level import not at top of file
+# F401: Module imported but unused (común en __init__.py)
+# E731: Do not assign a lambda expression (útil en ML)
+# E226: Missing whitespace around arithmetic operator (common in ML, e.g. "="*80)
+# E225: Missing whitespace around operator (common in f-string expressions in ML)
+# E127: Continuation line over-indented for visual indent (cosmetic)
+ignore =
+    E203,
+    E225,
+    E226,
+    E266,
+    E501,
+    W503,
+    W504,
+    E402,
+    E127,
+    F401,
+    E731
+
+# Select specific errors and warnings
+# E: PEP 8 errors, W: PEP 8 warnings, F: PyFlakes errors, C: McCabe complexity
+select =
+    E,
+    W,
+    F,
+    C
+
+# Per-file ignores
+per-file-ignores =
+    __init__.py:F401,E402
+    test_*.py:E501
+    *_test.py:E501
+
+# Maximum doc line length
+max-doc-length = 120
+
+# Show source code for each error
+show-source = True
+
+# Show pep8 error code in output
+show-pep8 = False
+
+# Count number of occurrences of each error
+count = True
+
+# Print total number of errors
+statistics = True
+
+# File name patterns to check
+filename = *.py
+
+# Benchmark
+benchmark = False
+
+# Use color in output
+color = auto

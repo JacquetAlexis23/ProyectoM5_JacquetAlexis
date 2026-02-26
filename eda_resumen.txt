@@ -1,0 +1,93 @@
+RESUMEN DEL ANÁLISIS EXPLORATORIO DE DATOS
+================================================================================
+
+
+📊 RESUMEN DEL DATASET:
+- Total de registros: 10,763
+- Variables numéricas: 19
+- Variables categóricas: 2
+- Variables de fecha: 1
+- Memoria utilizada: 2.85 MB
+
+🎯 VARIABLE OBJETIVO:
+- Distribución: Clase 0 (4.7%), Clase 1 (95.3%)
+- Balance: Desbalanceado (ratio: 0.050)
+
+❓ CALIDAD DE DATOS:
+- Total de nulos: 7,175 (2.90%)
+- Columnas con nulos: 7
+- Variables a eliminar: 0
+
+🔍 INSIGHTS PRINCIPALES:
+1. Variables más correlacionadas con Pago_atiempo:
+   - puntaje: 0.923
+   - huella_consulta: -0.074
+   - saldo_mora: -0.073
+   - puntaje_datacredito: 0.068
+   - plazo_meses: -0.063
+
+2. Outliers detectados:
+   - creditos_sectorCooperativo: 1895 outliers (17.6%)
+   - puntaje: 1356 outliers (12.6%)
+   - saldo_total: 970 outliers (9.0%)
+
+3. Variables con alta correlación entre sí:
+   - puntaje ↔ Pago_atiempo: 0.923
+   - cant_creditosvigentes ↔ creditos_sectorFinanciero: 0.791
+   - capital_prestado ↔ cuota_pactada: 0.764
+
+✅ ACCIONES TOMADAS (v1.2.0 del pipeline):
+1. ✅ Pipeline robusto de limpieza de datos — implementado en ft_engineering.py
+2. ✅ Imputación de nulos — SimpleImputer (median/constant) en ColumnTransformer
+3. ✅ Feature engineering completo — 34 features finales (fechas + financieras + categ.)
+4. ✅ Desbalanceo de clases — SMOTE activo + class_weight='balanced'
+5. ✅ Data leakage ('puntaje', corr=0.923) — eliminada con drop_leakage=True
+6. ✅ Threshold tuning — umbral óptimo por modelo optimizando F1
+7. ✅ Validación de datos — reglas establecidas y testeadas (48 tests passing)
+8. ✅ Monitoreo de drift — implementado en model_monitoring.py
+
+✓ Dataset procesado en Feature Engineering — 34 features finales
+
+
+REGLAS DE VALIDACIÓN:
+--------------------------------------------------------------------------------
+
+tipo_credito:
+  - tipo: int
+  - rango: (np.int64(4), np.int64(68))
+  - permite_nulos: False
+
+fecha_prestamo:
+  - tipo: datetime
+  - rango: (Timestamp('2024-11-26 09:17:04'), Timestamp('2026-04-26 18:43:52'))
+  - permite_nulos: False
+
+capital_prestado:
+  - tipo: float
+  - rango: (0, np.float64(8881109.759999987))
+  - permite_nulos: True
+
+plazo_meses:
+  - tipo: int
+  - rango: (1, 360)
+  - permite_nulos: False
+
+edad_cliente:
+  - tipo: int
+  - rango: (18, 100)
+  - permite_nulos: False
+
+tipo_laboral:
+  - tipo: str
+  - valores_validos: ['Independiente', 'Empleado']
+  - permite_nulos: True
+
+salario_cliente:
+  - tipo: int
+  - rango: (0, np.float64(39553562.179999426))
+  - permite_nulos: False
+
+Pago_atiempo:
+  - tipo: int
+  - valores_validos: [0, 1]
+  - permite_nulos: False
