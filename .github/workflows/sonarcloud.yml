@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-      - developer
-      - certification
   pull_request:
+    branches:
+      - main
     types: [opened, synchronize, reopened]
 
 jobs:
@@ -45,6 +45,21 @@ jobs:
             --cov-report=term-missing || true
         continue-on-error: true
       
+      - name: Show coverage summary
+        run: |
+          echo "=== coverage.xml exists? ==="
+          ls -la coverage.xml 2>/dev/null || echo "coverage.xml NOT FOUND"
+          echo "=== Test results summary ==="
+          python -m pytest tests/ \
+            --override-ini="addopts=-v --strict-markers --tb=short" \
+            --cov=api_main \
+            --cov=mlops_pipeline/src/ft_engineering \
+            --cov=mlops_pipeline/src/model_deploy \
+            --cov=mlops_pipeline/src/model_training_evaluation \
+            --cov-report=term-missing \
+            --no-cov-on-fail -q 2>&1 | tail -30 || true
+        continue-on-error: true
+
       - name: Run Pylint
         run: |
           pylint api_main.py mlops_pipeline/src/*.py \
