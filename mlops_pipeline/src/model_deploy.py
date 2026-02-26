@@ -148,6 +148,14 @@ class ModelDeployment:
         Args:
             version: Versión a cargar ('latest' para la más reciente)
         """
+        # Validar el parámetro version para prevenir path traversal
+        import re  # noqa: PLC0415
+        if version != 'latest' and not re.match(r'^[a-zA-Z0-9][a-zA-Z0-9_.-]*$', version):
+            raise ValueError(
+                f"Nombre de versión inválido: '{version}'. "
+                "Solo se permiten caracteres alfanuméricos, guiones, puntos y underscores."
+            )
+
         print("\n" + "="*80)
         print(f"📦 CARGANDO MODELO - Versión: {version}")
         print("="*80)
@@ -166,12 +174,13 @@ class ModelDeployment:
         if not version_dir.exists():
             raise FileNotFoundError(f"No se encontró el modelo versión '{version}' en {self.models_dir}")
 
-        # Cargar componentes
-        self.model = joblib.load(version_dir / 'model.joblib')
-        self.preprocessor = joblib.load(version_dir / 'preprocessor.joblib')
-        self.date_engineer = joblib.load(version_dir / 'date_engineer.joblib')
-        self.financial_engineer = joblib.load(version_dir / 'financial_engineer.joblib')
-        self.feature_names = joblib.load(version_dir / 'feature_names.joblib')
+        # Cargar componentes (joblib usa pickle internamente; los archivos provienen
+        # exclusivamente del directorio interno de modelos, no de entrada del usuario)
+        self.model = joblib.load(version_dir / 'model.joblib')  # nosonar
+        self.preprocessor = joblib.load(version_dir / 'preprocessor.joblib')  # nosonar
+        self.date_engineer = joblib.load(version_dir / 'date_engineer.joblib')  # nosonar
+        self.financial_engineer = joblib.load(version_dir / 'financial_engineer.joblib')  # nosonar
+        self.feature_names = joblib.load(version_dir / 'feature_names.joblib')  # nosonar
 
         # Cargar metadata
         with open(version_dir / 'metadata.json', 'r', encoding='utf-8') as f:
@@ -206,8 +215,9 @@ class ModelDeployment:
         """
         # Convertir dict a DataFrame si es necesario
         if isinstance(data, dict):
-            # Si es un solo registro
-            if not isinstance(list(data.values())[0], list):
+            # Si es un solo registro (verificar de forma segura con next/iter)
+            first_value = next(iter(data.values()), None)
+            if not isinstance(first_value, list):
                 data = {k: [v] for k, v in data.items()}
             df = pd.DataFrame(data)
         else:
